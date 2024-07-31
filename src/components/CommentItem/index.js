@@ -1,7 +1,9 @@
 // Write your code here
 import './index.css'
 
-const Item = () => {
+const Item = props => {
+  const {item} = props
+
   return (
     <li className="list-bg">
       <div className="details-main-bg">

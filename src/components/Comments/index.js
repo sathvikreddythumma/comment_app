@@ -19,14 +19,16 @@ class Comments extends Component {
 
   addComment = event => {
     event.preventDefault()
+    const num = Math.ceil((Math.random() * 10) % 7)
+    console.log(num - 1)
   }
 
-  nameupdate = event => {
+  nameUpdate = event => {
     this.setState({nameInput: event.target.value})
   }
 
-  commentupdate = event => {
-    this.setState({nameInput: event.target.value})
+  commentUpdate = event => {
+    this.setState({commentInput: event.target.value})
   }
 
   render() {
@@ -47,14 +49,14 @@ class Comments extends Component {
                   </p>
                   <input
                     type="text"
-                    onChange={this.nameupdate}
+                    onChange={this.nameUpdate}
                     className="inp1"
                     placeholder="Your Name"
                     value={nameInput}
                   />
-                  <br /> <br />
+
                   <textarea
-                    onChange={this.commentupdate}
+                    onChange={this.commentUpdate}
                     type="text"
                     rows="7"
                     cols="55"
@@ -62,8 +64,8 @@ class Comments extends Component {
                     className="inp1"
                     value={commentInput}
                   />
-                  <br />
-                  <button type="button" className="btn">
+
+                  <button type="submit" className="btn">
                     Add Comment
                   </button>
                 </form>
@@ -83,8 +85,8 @@ class Comments extends Component {
                 <p className="p2">Comments</p>
               </div>
             </div>
-            <ul type="none" className="unlist-bg">
-              <Item />
+            <ul type="none" className="unList-bg">
+              <Item item={nameInput} />
             </ul>
           </div>
         </div>

@@ -62,6 +62,7 @@
   padding: 8px;
   border-radius: 5px;
   border: 1px solid #dee0e3;
+  margin-bottom: 8px;
 }
 .form-bg {
   display: flex;
@@ -113,7 +114,7 @@
   font-weight: 600;
   margin-left: 5px;
 }
-.unlist-bg {
+.unList-bg {
   width: 100%;
   height: 100%;
 }
