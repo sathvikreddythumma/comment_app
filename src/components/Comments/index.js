@@ -1,5 +1,7 @@
 import './index.css'
 import {Component} from 'react'
+import {formatDistanceToNow} from 'date-fns'
+import {v4 as uuidv4} from 'uuid'
 import Item from '../CommentItem'
 
 const initialContainerBackgroundClassNames = [
@@ -15,12 +17,31 @@ const initialContainerBackgroundClassNames = [
 // Write your code here
 
 class Comments extends Component {
-  state = {nameInput: '', commentInput: ''}
+  state = {nameInput: '', commentInput: '', count: 0, list: [], isActive: false}
 
   addComment = event => {
     event.preventDefault()
+    const {nameInput, commentInput, list, isActive} = this.state
     const num = Math.ceil((Math.random() * 10) % 7)
-    console.log(num - 1)
+    const bgCol = initialContainerBackgroundClassNames[num - 1]
+    console.log(bgCol)
+    console.log(formatDistanceToNow(new Date()))
+    const d = formatDistanceToNow(new Date())
+    const obj = {
+      id: uuidv4(),
+      bg: bgCol,
+      name: nameInput,
+      date: d,
+      desc: commentInput,
+      isLiked: false,
+    }
+    this.setState(prev => ({
+      list: [...prev.list, obj],
+      nameInput: '',
+      commentInput: '',
+      count: prev.count + 1,
+      isActive: false,
+    }))
   }
 
   nameUpdate = event => {
@@ -31,8 +52,29 @@ class Comments extends Component {
     this.setState({commentInput: event.target.value})
   }
 
+  change = uId => {
+    console.log(uId)
+    const {list} = this.state
+    this.setState(prev => ({
+      list: list.filter(e => e.id !== uId),
+      count: prev.count - 1,
+    }))
+  }
+
+  like = uId1 => {
+    const {list} = this.state
+    this.setState(prev => ({
+      list: prev.list.map(e => {
+        if (e.id === uId1) {
+          return {...e, isLiked: !e.isLiked}
+        }
+        return e
+      }),
+    }))
+  }
+
   render() {
-    const {nameInput, commentInput} = this.state
+    const {nameInput, commentInput, count, list, isActive} = this.state
 
     return (
       <div className="bg1">
@@ -81,13 +123,23 @@ class Comments extends Component {
             </div>
             <div className="comment-bg">
               <div className="comment-count">
-                <div className="count-bg">0</div>
+                <div className="count-bg">{list.length}</div>
                 <p className="p2">Comments</p>
               </div>
             </div>
-            <ul type="none" className="unList-bg">
-              <Item item={nameInput} />
-            </ul>
+            <div className="unList-bg">
+              <ul type="none" className="unList-bg">
+                {list.map(e => (
+                  <Item
+                    item={e}
+                    key={e.id}
+                    b={e.bg}
+                    change={this.change}
+                    like={this.like}
+                  />
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
